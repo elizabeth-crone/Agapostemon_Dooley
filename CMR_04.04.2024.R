@@ -3,13 +3,13 @@
 # This file uses outputs from the "Agapostemon_simple.R" output for plotting at the end
 library(plotrix)
 library(RMark)
-MarkPath="~/Documents/Coding_manuscript"
 
 setwd("~/Documents/Coding_manuscript")
-source("transparent.R")
+setwd("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/MARK")
+source("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/transparent.R")
 
 # import capture histories and keep the leading zeroes
-dat<-read.csv("captures_for_Mark 03.01.2024.csv", colClasses = c("character", "factor", "factor", "real", "integer")) 
+dat<-read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/captures_for_Mark 03.01.2024.csv", colClasses = c("character", "factor", "factor", "real", "integer")) 
 # create a table of capture histories
 table(dat$ch)
 summary(dat)
@@ -145,6 +145,9 @@ sitevals
 sitevals2 = merge(sitevals, AGVI.sum[,1:2], by = "Site", all.x = T, all.y = T)
 names(AGVI.num.imp)[2] = "pot.type"
 sitevals2 = merge(sitevals2, AGVI.num.imp[,c(1,2,10)])
+mytranspG = t_col("darkorchid", percent = 70)
+mytranspN = t_col("cornsilk3", percent = 70)
+
 sitevals2$mycols = "darkorchid"
 sitevals2$mycols[sitevals2$pot.type == "N"] = "cornsilk3"
 sitevals2$mypch = 24
@@ -174,8 +177,8 @@ plot(Imps, predsG, col = "darkorchid4", type = "l", ylim = c(0,1), xlab = "", yl
 points(Imps, predsN, col = "cornsilk4", type = "l", lwd = 3)
 mtext(side = 1, line = 2, "% impervious surface")
 mtext(side = 2, line = 2, "capture probability")
-polygon(c(Imps, rev(Imps)), c((predsG.upp), rev((predsG.low))), col = mytranspG, border = NA)
-polygon(c(Imps, rev(Imps)), c((predsN.upp), rev((predsN.low))), col = mytranspN, border = NA)
+polygon(c(Imps, rev(Imps)), c((predsG.upp), rev((predsG.low))), col = mytranspG, border ="darkorchid")
+polygon(c(Imps, rev(Imps)), c((predsN.upp), rev((predsN.low))), col = mytranspN, border = "cornsilk4")
 
 with(sitevals2[sitevals2$pot.type == "G",], plotCI(jitter(Imp_vals), estimate, ui = ucl, li = lcl, pch = 24, pt.bg = mycols, add = T))
 with(sitevals2[sitevals2$pot.type == "N",], plotCI(jitter(Imp_vals), estimate, ui = ucl, li = lcl, pch = 25, pt.bg = mycols, add = T))
@@ -232,8 +235,8 @@ plot(Imps, predsG2, col = "darkorchid4", type = "l", ylim = c(0,1), xlab = "", y
 points(Imps, predsN2, col = "cornsilk4", type = "l", lwd = 3)
 mtext(side = 1, line = 2, "% impervious surface")
 mtext(side = 2, line = 2, "apparent survival")
-polygon(c(Imps, rev(Imps)), c((predsG.upp2), rev((predsG.low2))), col = mytranspG, border = NA)
-polygon(c(Imps, rev(Imps)), c((predsN.upp2), rev((predsN.low2))), col = mytranspN, border = NA)
+polygon(c(Imps, rev(Imps)), c((predsG.upp2), rev((predsG.low2))), col = mytranspG, border = "darkorchid")
+polygon(c(Imps, rev(Imps)), c((predsN.upp2), rev((predsN.low2))), col = mytranspN, border = "cornsilk4")
 
 #library(plotrix)
 with(sitevals.phi2[sitevals.phi2$pot.type == "G",], plotCI(jitter(Imp_vals), estimate, ui = ucl, li = lcl, pch = 24, pt.bg = mycols, add = T))

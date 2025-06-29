@@ -4,7 +4,7 @@ source("transparent.R")
 
 # starting with a general summarization of survey results
 # read in raw mark recapture data
-dat = read.csv("Mark_recap_raw.csv")
+dat = read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/Mark_recap_raw.csv")
 unique(dat$Site)
 
 # remove sites that were not selected for final analyses
@@ -56,7 +56,7 @@ AGVI.num = merge(AGVI.num1, AGVI.num2, by = c("Site", "pot"))
 AGVI.num
 
 # read in % impervious surface values calculated for each site
-new_imp = read.csv("Imp_vals_perpot.csv")
+new_imp = read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/Imp_vals_perpot.csv")
 new_imp
 imp2 = pivot_longer(new_imp[,c(1,3,4)], cols = c("Imp_G", "Imp_N"), values_to = "Imp_vals")
 imp2
@@ -67,7 +67,7 @@ AGVI.num.imp = merge(AGVI.num, imp2)
 AGVI.num.imp 
 
 # read in garden size data and estimated floral counts from garden surveys
-gard.size = read.csv("Gard_size.csv")
+gard.size = read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/Gard_size.csv")
 
 AGVI.num.gards = merge(AGVI.num.imp[AGVI.num.imp$pot == "G",], gard.size, by = "Site") 
 AGVI.num.gards # data merged with garden size and floral counts
@@ -113,15 +113,15 @@ mtext(side = 1, line = 2, "% impervious surface")
 mtext(side = 2, line = 2, "# individual bees seen")
 polygon(c(Imps, rev(Imps)), c(exp(predsG$fit + 1.4*predsG$se.fit), 
                               rev(exp(predsG$fit - 1.4*predsG$se.fit))), 
-                              col = mytranspG, border = NA)
+                              col = mytranspG, border = "darkorchid4", lty = "dashed")
 polygon(c(Imps, rev(Imps)), c(exp(predsN$fit + 1.4*predsN$se.fit), 
-                              rev(exp(predsG$fit - 1.4*predsG$se.fit))), 
-                              col = mytranspN, border = NA)
-points(Imps, exp(predsG$fit), type = "l", col = "darkorchid4", lwd = 3)
+                              rev(exp(predsN$fit - 1.4*predsN$se.fit))), 
+                              col = mytranspN, border = "cornsilk4")
+points(Imps, exp(predsG$fit), type = "l", col = "darkorchid4", lwd = 3, lty = "dashed")
 points(Imps, exp(predsN$fit), type = "l", col = "cornsilk4", lwd = 3)
 with(AGVI.num.imp, points(Imp_vals, Nbees, pch = mypch, bg = mycols)) # redraw points in foreground
 legend("topright", pch = c(24,25), pt.bg = c("darkorchid", "cornsilk3"), 
-       legend = c("Garden", "Non-garden"), cex = 0.8, pt.cex = 1)   
+       legend = c("Garden", "Non-garden"), lty = c("dashed","solid"), cex = 0.8, pt.cex = 1)   
 
 
 with(AGVI.num.imp, plot(Imp_vals, Ncaps, pch = mypch, bg = mycols, ylim = c(0,40), xlab = "", ylab = ""))
