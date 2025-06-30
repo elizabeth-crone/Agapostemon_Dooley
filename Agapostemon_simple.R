@@ -1,10 +1,9 @@
-setwd("~/Documents/Coding_manuscript")
 library(tidyverse)
 source("transparent.R")
 
 # starting with a general summarization of survey results
 # read in raw mark recapture data
-dat = read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/Mark_recap_raw.csv")
+dat = read.csv("Mark_recap_raw.csv")
 unique(dat$Site)
 
 # remove sites that were not selected for final analyses
@@ -37,13 +36,7 @@ AGVI.sum$Nbees.N = unlist(lapply(tmp3, length))
 # final table with totals of each metric measured at each site 
 AGVI.sum
 
-
-
 sum(AGVI.sum$Ncap)
-table(dat2$move_Type)
-(Nmoves = sum(table(dat2$move_Type))-145)
-1-10/81 # proportion of recaptures in a new pot
-
 
 #########################
 # set up data for statistical testing
@@ -56,7 +49,7 @@ AGVI.num = merge(AGVI.num1, AGVI.num2, by = c("Site", "pot"))
 AGVI.num
 
 # read in % impervious surface values calculated for each site
-new_imp = read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/Imp_vals_perpot.csv")
+new_imp = read.csv("Imp_vals_perpot.csv")
 new_imp
 imp2 = pivot_longer(new_imp[,c(1,3,4)], cols = c("Imp_G", "Imp_N"), values_to = "Imp_vals")
 imp2
@@ -67,7 +60,7 @@ AGVI.num.imp = merge(AGVI.num, imp2)
 AGVI.num.imp 
 
 # read in garden size data and estimated floral counts from garden surveys
-gard.size = read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/Gard_size.csv")
+gard.size = read.csv("Gard_size.csv")
 
 AGVI.num.gards = merge(AGVI.num.imp[AGVI.num.imp$pot == "G",], gard.size, by = "Site") 
 AGVI.num.gards # data merged with garden size and floral counts
@@ -129,10 +122,10 @@ mtext(side = 1, line = 2, "% impervious surface")
 mtext(side = 2, line = 2, "total # of captures")
 polygon(c(Imps, rev(Imps)), c(exp(predsG0$fit + 1.4*predsG0$se.fit), 
                               rev(exp(predsG0$fit - 1.4*predsG0$se.fit))), 
-                              col = mytranspG, border = NA)
+                              col = mytranspG, border = "darkorchid4", lty = "dashed")
 polygon(c(Imps, rev(Imps)), c(exp(predsN0$fit + 1.4*predsN0$se.fit), 
-                              rev(exp(predsG0$fit - 1.4*predsG0$se.fit))), 
-                              col = mytranspN, border = NA)
+                              rev(exp(predsN0$fit - 1.4*predsN0$se.fit))), 
+                              col = mytranspN, border = "cornsilk4")
 points(Imps, exp(predsG0$fit), type = "l", col = "darkorchid4", lwd = 3)
 points(Imps, exp(predsN0$fit), type = "l", col = "cornsilk4", lwd = 3)
 with(AGVI.num.imp, points(Imp_vals, Ncaps, pch = mypch, bg = mycols)) # redraw points in foreground
@@ -249,3 +242,4 @@ polygon(c(Imps, rev(Imps)), c(exp(predsFB$fit + 1.96*predsFB$se.fit),
 points(Imps, exp(predsFB$fit), type = "l", col = "gold3", lwd = 3)
 with(AGVI.num.gards, points(Imp_vals, Nbees/Fl_counts_ingard, pch = 21, bg = "gold2", 
                             cex = sqrt(Nbees/meanbees))) # redraw points in foreground
+

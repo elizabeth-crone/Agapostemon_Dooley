@@ -4,12 +4,10 @@
 library(plotrix)
 library(RMark)
 
-setwd("~/Documents/Coding_manuscript")
-setwd("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/MARK")
-source("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/transparent.R")
+source("transparent.R")
 
 # import capture histories and keep the leading zeroes
-dat<-read.csv("C:/Users/ecrone/Box/All Box Documents/Karen Dooley/EcoApps final files/captures_for_Mark 03.01.2024.csv", colClasses = c("character", "factor", "factor", "real", "integer")) 
+dat<-read.csv("captures_for_Mark 03.01.2024.csv", colClasses = c("character", "factor", "factor", "real", "integer")) 
 # create a table of capture histories
 table(dat$ch)
 summary(dat)
@@ -153,7 +151,7 @@ sitevals2$mycols[sitevals2$pot.type == "N"] = "cornsilk3"
 sitevals2$mypch = 24
 sitevals2$mypch[sitevals2$pot.type == "N"] = 25
 
-#detour to calculate regression confidence intervals from RMark output
+#the next ~ 15 lines of code calculate regression confidence intervals from RMark output
 #again there might be a better way than doing the math by hand
 vcov = bees.Phi.dot.p.act2b$results$beta.vcv
 coefs = bees.Phi.dot.p.act2b$results$beta
@@ -207,14 +205,13 @@ sitevals.phi2$mypch[sitevals.phi2$pot.type == "N"] = 25
 
 sitevals.phi2
 
-#detour to calculate regression confidence intervals from RMark output
-#again there might be a better way than doing the math by hand
+# again, ~ 15 lines of code calculate regression confidence intervals from RMark output
+# again, there might be a better way than doing the math by hand
 Phi.both_a = list(formula = ~0 + pot + imperv)
 bees.Phi.act2.p.act2 = mark(bees.processed,bees.ddl, model.parameters = list(Phi = Phi.both_a, p = p.act2))
 vcov2 = bees.Phi.act2.p.act2$results$beta.vcv
 coefs2 = bees.Phi.act2.p.act2$results$beta
-coefs2
-vcov2
+
 # this part is easy - just use the intercept and slope to get the expected values
 Imps = seq(35, 93, 0.1)
 predsG2 = plogis(coefs2[1,1]+coefs2[3,1]*Imps)
